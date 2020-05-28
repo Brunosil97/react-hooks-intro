@@ -8,6 +8,14 @@ class App extends Component {
     isOn: false 
   }
 
+  componentDidMount() {
+    document.title = `${this.state.count}`
+  }
+
+  componentDidUpdate() {
+    document.title = `${this.state.count}`
+  }
+
   incrementCount = () => {
     this.setState({
       count: this.state.count +  1
