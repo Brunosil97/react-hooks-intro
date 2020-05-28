@@ -4,17 +4,30 @@ const App = () => {
 
     const [count, setCount] = useState(0)
     const [isOn, setIsOn] = useState(false)
-    const [mousePosition, setMousePosition] = useState({x: null, y: null})
-
+    const [mousePosition, setMousePosition] = useState({x: 0, y: 0})
+    const [status, setStatus] = useState(navigator.onLine)
 
     useEffect(() => {
         document.title = `${count}`
         window.addEventListener('mousemove', handleMouseMove)
+        window.addEventListener('online', handleOnline)
+        window.addEventListener('offline', handleOffline)
+
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove)
+            window.removeEventListener('online', handleOnline)
+            window.removeEventListener('offline', handleOffline)
         }
     }, [count])
+
+    const handleOnline = () => {
+        setStatus(true)
+    }
+
+    const handleOffline = () => {
+        setStatus(false)
+    }
 
     const handleMouseMove = event => {
         setMousePosition({
@@ -42,13 +55,12 @@ const App = () => {
             </div>
 
             <h2>Mouse Position</h2>
-            <p>Y position: {JSON.stringify(mousePosition, null, 2)}</p>
+            <p>Y position: {JSON.stringify(mousePosition.y)}</p>
+            <p>X position: {JSON.stringify(mousePosition.x)}</p>
 
-            {/* <img  style={{height: "50px", width: "50px"}}
-                onClick={toggleLike} src={isOn ? "https://icon.now/highlight/fd0" : "https://icon.now/highlight/aaa"}
-                alt="Flashlight"
-            >
-            </img> */}
+            <h2>Network Status</h2>
+            <p>You are <strong>{status ? "online" : "offline"}</strong></p>
+
         </React.Fragment>
     )
 }
